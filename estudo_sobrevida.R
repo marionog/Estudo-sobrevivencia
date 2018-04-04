@@ -239,26 +239,19 @@ d$estadio2[d$estadio=="IV"] <- 1
 d$jf2[d$jf=="JF"] <- 0
 d$jf2[d$jf=="Outras"] <- 1
 
-# efeito total
+# pacotes necessários
 library(survival)
-TE = coxph(Surv(tempo10,status10) ~ cor2 + idade + rendacat + cluster(jf2), data=d)
-summary(TE)
-
-# efeito da exposição no mediador estadio
-library(geepack)
-Mestadio = geeglm(estadio2 ~ cor2+idade+rendacat,family=binomial,data=d,id=d$jf2)
-summary(Mestadio)
 
 # decomposição dos efeitos
 doEffectDecomp = function(d)
 {
   # Step 1: Replicate exposure variable, predict mediators
   d$cor2Temp = d$cor2
-  Mestadio = geeglm(estadio2 ~ cor2Temp+idade+rendacat,family=binomial,data=d,id=d$jf2)
+  Mestadio = glm(estadio2 ~ cor2Temp+idade+rendacat,family=binomial,data=d)
   # Step 2: Replicate data with different exposures
   d1 = d2 = d
-  d1$cor2star = 0
-  d2$cor2star = 1
+  d1$cor2star = d1$cor2
+  d2$cor2star = !di$cor2
   newd = rbind(d1, d2)
   # Step 3: Compute weights for estadio
   newd$cor2Temp = newd$cor2
