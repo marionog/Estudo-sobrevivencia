@@ -251,7 +251,7 @@ doEffectDecomp = function(d)
   # Step 2: Replicate data with different exposures
   d1 = d2 = d
   d1$cor2star = d1$cor2
-  d2$cor2star = !di$cor2
+  d2$cor2star = !d2$cor2
   newd = rbind(d1, d2)
   # Step 3: Compute weights for estadio
   newd$cor2Temp = newd$cor2
