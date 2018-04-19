@@ -225,6 +225,9 @@ plot(completo$estadio, res.esco5[,8], xlab = "Estadio IV", ylab = "Resíduos")
 
 ### DECOMPOSIÇÃO DE EFEITOS EM ANÁLISE DE SOBREVIVÊNCIA
 
+# verificação do pressuposto de positividade
+table(completo$cor1,completo$id_cat1,completo$rendacat)
+                                 
 # transformando algumas variáveis
 d = completo
 
